@@ -8,16 +8,30 @@ class HomeController < ApplicationController
     @response = Net::HTTP.get(@uri)
     @news = JSON.parse(@response)
 
+    
     #grab price data
-    @url = 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH,XRP,BCH,EOS,LTC,ADA,XLM,MIOTA,USDT,TRX&tsyms=USD,EUR'
-    @uri = URI(@url)
-    @response = Net::HTTP.get(@uri)
-    @prices_crypto = JSON.parse(@response)
-
-  end
-
-  def prices 
+    @prices_url = 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,XRP,ETH,BCH,EOS,LTC,ADA,XLM,MIOTA,USDT,TRX&tsyms=USD,EUR'
+    @prices_uri = URI(@prices_url)
+    @prices_response = Net::HTTP.get(@prices_uri)
+    @prices_crypto = JSON.parse(@prices_response)
 
     
+  end
+
+  
+  def prices 
+    require 'net/http'
+    require 'json'
+    @symbol = params[:sym]
+    if @symbol
+    @symbol = @symbol.upcase
+
+    #grab price data
+    @quote_url = 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=' + @symbol +  '&tsyms=USD,EUR'
+    @quote_uri = URI(@quote_url)
+    @quote_response = Net::HTTP.get(@quote_uri)
+    @quote = JSON.parse(@quote_response)
+
+    end
   end
 end

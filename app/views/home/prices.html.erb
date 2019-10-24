@@ -1,1 +1,19 @@
-<h1> Prices Page </h1>
+
+
+<%if @symbol%>
+<%if @quote["Response"]%>
+<h3> That Symbol <%=@symbol%> Doesnt't Exist. Please Try Again..</h3>
+<%else%>
+     <%@quote["DISPLAY"].each do |key, value|%>
+          <div class="jumbotron">
+           <h1 class="display-4"><%= key %></h1>
+            Price: <%= value["USD"]["PRICE"]%> <br/>
+            24 hr High:<%= value["USD"]["HIGHDAY"]%><br/>
+            24 hr Low: <%= value["USD"]["LOWDAY"]%><br/>
+            Market Cap: <%= value["USD"]["MKTCAP"]%><br/>
+        </div>   
+        <%end%>
+        <%end%>
+<%else%>
+<h4>Please enter a crypto symbol in the form above..</h4>
+<%end%>
